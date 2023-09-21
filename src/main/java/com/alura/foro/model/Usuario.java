@@ -1,6 +1,7 @@
 package com.alura.foro.model;
 
-import com.alura.foro.dto.request.DtoCrearUsuario;
+import com.alura.foro.dto.request.actualizar.DtoActualizarUsuario;
+import com.alura.foro.dto.request.crear.DtoCrearUsuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -41,6 +42,7 @@ public class Usuario implements Serializable {
     @Column(nullable = false, length = 100)
     @NotNull(message = "Estado es obligatorio")
     @Enumerated(EnumType.STRING)
+    @Setter
     private Estado estado;
 
     public Usuario(DtoCrearUsuario dtoCrearUsuario) {
@@ -48,5 +50,14 @@ public class Usuario implements Serializable {
         this.password = dtoCrearUsuario.password();
         this.nombre = dtoCrearUsuario.nombre();
         this.estado = Estado.Activo;
+    }
+
+    public void actualizarUsuario(DtoActualizarUsuario userDtoRequest) {
+        this.username = userDtoRequest.username();
+        this.password = userDtoRequest.password();
+        this.nombre = userDtoRequest.nombre();
+        if (userDtoRequest.estado()!=null) {
+            this.estado = userDtoRequest.estado();
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.alura.foro.dto.request;
+package com.alura.foro.dto.request.crear;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

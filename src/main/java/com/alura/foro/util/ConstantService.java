@@ -12,7 +12,11 @@ public class ConstantService {
     public static final String MODEL_COURSE = "Curso";
     public static final String INFO_CREATED = "creado";
     public static final String VALIDATION_FAILED = "Error de validación";
-    public static final String BAD_REQUEST = "BAD REQUEST";
+    public static final Object ERROR_METHOD_NOT_ALLOWED = "Método no permitido";
+    public static final Object ERROR_CONFLICT = "Error de integridad de datos";
+    public static final String INFO_UPDATED = "actualizado";
+    public static final Object ERROR_BAD_REQUEST = "Error en la petición";
+    public static final String INFO_DELETED = "eliminado";
 
     private ConstantService() {
     }

@@ -1,0 +1,17 @@
+use forodb;
+INSERT INTO roles(rol) VALUES('ROLE_ADMIN');
+INSERT INTO roles(rol) VALUES('ROLE_USER');
+INSERT INTO usuarios(username, password, nombre, estado) VALUES('luisgoenagap@gmail.com', 'admin', 'Luis', 'Activo');
+INSERT INTO usuarios_roles(id_usuario, id_rol) VALUES(1, 1);
+INSERT INTO usuarios_roles(id_usuario, id_rol) VALUES(1, 2);
+INSERT INTO cursos(nombre, descripcion, estado) VALUES('CursoRepository de Spring', 'CursoRepository de Spring', 'Activo');
+INSERT INTO cursos(nombre, descripcion, estado) VALUES('CursoRepository de Angular', 'CursoRepository de Angular', 'Activo');
+INSERT INTO topicos(titulo, descripcion, id_curso, id_usuario, estatus, fecha_creacion, fecha_actualizacion) VALUES('Spring Boot', 'Spring Boot', 1, 1, 'Abierto',NOW(),NOW());
+INSERT INTO topicos(titulo, descripcion, id_curso, id_usuario, estatus, fecha_creacion, fecha_actualizacion) VALUES('Angular', 'Angular', 2, 1, 'Abierto',NOW(),NOW());
+INSERT INTO discusiones(mensaje, id_topico, id_usuario, fecha_creacion) VALUES('Mensaje de prueba1', 1, 1, NOW());
+INSERT INTO discusiones(mensaje, id_topico, id_usuario, fecha_creacion) VALUES('Mensaje de prueba2', 2, 1, NOW());
+INSERT INTO usuarios(username, password, nombre, estado) VALUES('yecheverry@gmail.com', 'usuario', 'Yeraldin', 'Activo');
+INSERT INTO usuarios_roles(id_usuario, id_rol) VALUES(2, 2);
+INSERT INTO cursos(nombre, descripcion, estado) VALUES('CursoRepository de Java', 'CursoRepository de Java', 'Activo');
+INSERT INTO topicos(titulo, descripcion, id_curso, id_usuario, estatus, fecha_creacion, fecha_actualizacion) VALUES('Java', 'Java', 3, 2, 'Abierto',NOW(),NOW());
+INSERT INTO discusiones(mensaje, id_topico, id_usuario, fecha_creacion) VALUES('Mensaje de prueba3', 3, 2, NOW());

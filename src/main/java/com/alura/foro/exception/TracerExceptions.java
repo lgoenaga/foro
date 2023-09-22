@@ -1,6 +1,8 @@
 package com.alura.foro.exception;
 
 import com.alura.foro.util.ConstantService;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.UnexpectedTypeException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -52,6 +54,16 @@ public class TracerExceptions {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> illegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.status(412).body(ConstantService.VALIDATION_FAILED+"\n"+ e.getMessage());
+    }
+
+    @ExceptionHandler(UnexpectedTypeException.class)
+    public ResponseEntity<Object> unexpectedTypeException(UnexpectedTypeException e) {
         return ResponseEntity.status(400).body(ConstantService.ERROR_BAD_REQUEST+"\n"+ e.getMessage());
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> constraintViolationException(ConstraintViolationException e) {
+        return ResponseEntity.status(412).body(ConstantService.VALIDATION_FAILED+"\n"+ e.getMessage());
     }
 }

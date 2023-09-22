@@ -7,6 +7,7 @@ import com.alura.foro.model.Curso;
 import com.alura.foro.model.Estado;
 import com.alura.foro.repository.CursoRepository;
 import com.alura.foro.service.interfaces.CursoInterface;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +32,23 @@ public class CursoService implements CursoInterface {
     }
 
     @Override
-    public void crearCurso(DtoCrearCurso curso) {
-        Curso cursoCreado = new Curso(curso);
-        cursoRepository.save(cursoCreado);
+    public List<DtoListarCurso> listarCursos(String estado) {
+        List<Curso> cursos = cursoRepository.findByEstado(Estado.valueOf(estado));
+        return cursos.stream().map(DtoListarCurso::new).toList();
     }
 
     @Override
+    @Transactional
+    public void crearCurso(DtoCrearCurso curso) {
+        Curso cursoNuevo = new Curso();
+        cursoNuevo.setNombre(curso.nombre());
+        cursoNuevo.setDescripcion(curso.descripcion());
+        cursoNuevo.setEstado(Estado.ACTIVO);
+        cursoRepository.save(cursoNuevo);
+    }
+
+    @Override
+    @Transactional
     public void actualizarCurso(Long id, DtoActualizarCurso curso) {
         Curso cursoActualizado = cursoRepository.findById(id).orElseThrow();
         cursoActualizado.setNombre(curso.nombre());
@@ -46,17 +58,9 @@ public class CursoService implements CursoInterface {
         }else{
             cursoActualizado.setEstado(curso.estado());
         }
-
-        cursoRepository.save(cursoActualizado);
     }
-
     @Override
-    public List<DtoListarCurso> listarCursos(String estado) {
-        List<Curso> cursos = cursoRepository.findByEstado(Estado.valueOf(estado));
-        return cursos.stream().map(DtoListarCurso::new).toList();
-    }
-
-    @Override
+    @Transactional
     public void eliminarCurso(Long id) {
         cursoRepository.findById(id).orElseThrow();
         cursoRepository.deleteById(id);

@@ -1,6 +1,6 @@
 package com.alura.foro.controller;
 
-import com.alura.foro.dto.response.DtoListarDiscucion;
+import com.alura.foro.dto.response.DtoListarDiscusion;
 import com.alura.foro.service.implement.DiscusionService;
 import com.alura.foro.util.ConstantService;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +26,13 @@ public class DiscusionController {
 
     @GetMapping
     public ResponseEntity<Object> index() {
-        List<DtoListarDiscucion> discusiones = discusionService.listarDiscuciones();
+        List<DtoListarDiscusion> discusiones = discusionService.listarDiscusiones();
         return ResponseEntity.ok().body(discusiones);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> show(@PathVariable("id") Long id) {
-        DtoListarDiscucion discusion = discusionService.buscarDiscucion(id);
+        DtoListarDiscusion discusion = discusionService.buscarDiscusion(id);
         message = ConstantService.MODEL_DISCUSSION + " " + ConstantService.INFO_FOUND;
         logger.info(message);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(discusion);

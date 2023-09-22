@@ -3,8 +3,8 @@ package com.alura.foro.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.constraints.Positive;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serial;
@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "topicos")
-@Getter
-@RequiredArgsConstructor
+@Data
 public class Topico implements Serializable {
 
     @Serial
@@ -32,14 +31,14 @@ public class Topico implements Serializable {
     @Column(length = 100)
     private String descripcion;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     @NotNull(message = "Id de curso es obligatorio")
-    @NotEmpty(message = "Id de curso no puede estar vacío")
+    @Positive(message = "Id de curso debe ser numérico y mayor a cero")
     private Long idCurso;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     @NotNull(message = "Id de usuario es obligatorio")
-    @NotEmpty(message = "Id de usuario no puede estar vacío")
+    @Positive(message = "Id de usuario debe ser numérico y mayor a cero")
     private Long idUsuario;
 
     @Column(nullable = false, length = 100)

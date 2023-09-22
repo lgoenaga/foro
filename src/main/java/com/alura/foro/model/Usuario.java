@@ -1,12 +1,11 @@
 package com.alura.foro.model;
 
-import com.alura.foro.dto.request.actualizar.DtoActualizarUsuario;
-import com.alura.foro.dto.request.crear.DtoCrearUsuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
+import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,8 +13,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "usuarios")
-@Getter
-@RequiredArgsConstructor
+@Data
 public class Usuario implements Serializable {
 
     @Serial
@@ -44,20 +42,4 @@ public class Usuario implements Serializable {
     @Enumerated(EnumType.STRING)
     @Setter
     private Estado estado;
-
-    public Usuario(DtoCrearUsuario dtoCrearUsuario) {
-        this.username = dtoCrearUsuario.username();
-        this.password = dtoCrearUsuario.password();
-        this.nombre = dtoCrearUsuario.nombre();
-        this.estado = Estado.Activo;
-    }
-
-    public void actualizarUsuario(DtoActualizarUsuario userDtoRequest) {
-        this.username = userDtoRequest.username();
-        this.password = userDtoRequest.password();
-        this.nombre = userDtoRequest.nombre();
-        if (userDtoRequest.estado()!=null) {
-            this.estado = userDtoRequest.estado();
-        }
-    }
 }

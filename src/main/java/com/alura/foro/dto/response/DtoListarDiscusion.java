@@ -2,7 +2,7 @@ package com.alura.foro.dto.response;
 
 import com.alura.foro.model.Discusion;
 
-public record DtoListarDiscucion(
+public record DtoListarDiscusion(
 
         Long id,
         String mensaje,
@@ -10,7 +10,7 @@ public record DtoListarDiscucion(
         Long idUsuario
 
 ) {
-    public DtoListarDiscucion(Discusion discusion) {
+    public DtoListarDiscusion(Discusion discusion) {
         this(
                 discusion.getId(),
                 discusion.getMensaje(),

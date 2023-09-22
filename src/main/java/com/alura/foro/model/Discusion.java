@@ -3,8 +3,7 @@ package com.alura.foro.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serial;
@@ -13,8 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "discusiones")
-@Getter
-@RequiredArgsConstructor
+@Data
 public class Discusion implements Serializable {
 
     @Serial
@@ -28,8 +26,8 @@ public class Discusion implements Serializable {
     private String mensaje;
 
     @Column(nullable = false, length = 100)
-    @NotNull(message = "Id de topico es obligatorio")
-    @NotEmpty(message = "Id de topico no puede estar vacío")
+    @NotNull(message = "Id de tópico es obligatorio")
+    @NotEmpty(message = "Id de tópico no puede estar vacío")
     private Long idTopico;
 
     @Column(nullable = false, length = 100)

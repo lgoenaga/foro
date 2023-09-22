@@ -1,13 +1,13 @@
 package com.alura.foro.service.interfaces;
 
-import com.alura.foro.dto.response.DtoListarDiscucion;
+import com.alura.foro.dto.response.DtoListarDiscusion;
 
 import java.util.List;
 
 public interface DiscusionInterface {
 
-    List<DtoListarDiscucion> listarDiscuciones();
+    List<DtoListarDiscusion> listarDiscusiones();
 
-    DtoListarDiscucion buscarDiscucion(Long id);
+    DtoListarDiscusion buscarDiscusion(Long id);
 
 }

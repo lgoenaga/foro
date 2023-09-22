@@ -7,6 +7,7 @@ import com.alura.foro.model.Estado;
 import com.alura.foro.model.Usuario;
 import com.alura.foro.repository.UsuarioRepository;
 import com.alura.foro.service.interfaces.UsuarioInterface;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,33 +32,46 @@ public class UsuarioService implements UsuarioInterface {
     }
 
     @Override
+    public List<DtoListarUsuario> listarUsuarios(String estado) {
+        List<Usuario> usuarios = usuarioRepository.findByEstado(Estado.valueOf(estado));
+        return usuarios.stream().map(DtoListarUsuario::new).toList();
+    }
+
+    @Override
+    @Transactional
     public void registrarUsuario(DtoCrearUsuario dtoCrearUsuario) {
-        Usuario usuario = new Usuario(dtoCrearUsuario);
+        Usuario usuario = new Usuario();
+        usuario.setUsername(dtoCrearUsuario.username());
+        usuario.setPassword(dtoCrearUsuario.password());
+        usuario.setNombre(dtoCrearUsuario.nombre());
+        usuario.setEstado(Estado.ACTIVO);
         usuarioRepository.save(usuario);
     }
 
     @Override
+    @Transactional
     public void actualizarUsuario(Long id, DtoActualizarUsuario userDtoRequest) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow();
 
+        usuario.setUsername(userDtoRequest.username());
+        if (userDtoRequest.password()==null) {
+            usuario.setPassword(usuario.getPassword());
+        }else{
+            usuario.setPassword(userDtoRequest.password());
+        }
+        usuario.setNombre(userDtoRequest.nombre());
         if (userDtoRequest.estado()==null) {
             usuario.setEstado(usuario.getEstado());
         }else{
             usuario.setEstado(userDtoRequest.estado());
         }
-        usuario.actualizarUsuario(userDtoRequest);
-        usuarioRepository.save(usuario);
     }
 
     @Override
+    @Transactional
     public void eliminarUsuario(Long id) {
         usuarioRepository.findById(id).orElseThrow();
         usuarioRepository.deleteById(id);
     }
 
-    @Override
-    public List<DtoListarUsuario> listarUsuarios(String estado) {
-        List<Usuario> usuarios = usuarioRepository.findByEstado(Estado.valueOf(estado));
-        return usuarios.stream().map(DtoListarUsuario::new).toList();
-    }
 }

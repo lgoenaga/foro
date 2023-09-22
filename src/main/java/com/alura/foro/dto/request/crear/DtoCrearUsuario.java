@@ -3,7 +3,9 @@ package com.alura.foro.dto.request.crear;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 
+@Builder
 public record DtoCrearUsuario(
         @NotBlank(message = "Nombre es obligatorio")
         String nombre,

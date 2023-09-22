@@ -1,20 +1,16 @@
 package com.alura.foro.model;
 
-import com.alura.foro.dto.request.crear.DtoCrearCurso;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "cursos")
-@Getter
-@RequiredArgsConstructor
+@Data
 public class Curso implements Serializable {
 
     @Serial
@@ -27,23 +23,14 @@ public class Curso implements Serializable {
     @Column(unique = true, nullable = false, length = 100)
     @NotNull(message = "Nombre de curso es obligatorio")
     @NotEmpty(message = "Nombre de curso no puede estar vacío")
-    @Setter
     private String nombre;
 
     @Column(length = 100)
-    @Setter
     private String descripcion;
 
     @Column(nullable = false, length = 100)
     @NotNull(message = "Estado es obligatorio")
-    @Setter
     @Enumerated(EnumType.STRING)
     private Estado estado;
-
-    public Curso(DtoCrearCurso dtoCrearCurso) {
-        this.nombre = dtoCrearCurso.nombre();
-        this.descripcion = dtoCrearCurso.descripcion();
-        this.estado = Estado.Activo;
-    }
 
 }

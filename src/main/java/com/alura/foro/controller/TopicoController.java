@@ -41,6 +41,14 @@ public class TopicoController {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(topico);
     }
 
+    @GetMapping("/estatus/{estatus}")
+    public ResponseEntity<Object> showByEstatus(@PathVariable("estatus") String estatus) {
+            List<DtoListarTopico> topicos = topicoService.listarTopicosPorEstatus(estatus);
+            message = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_FOUND;
+            logger.info(message);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(topicos);
+    }
+
     @PostMapping
     public ResponseEntity<Object> store(@RequestBody @Valid DtoCrearTopico topico) {
             topicoService.registrarTopico(topico);
@@ -55,6 +63,14 @@ public class TopicoController {
             message = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_UPDATED;
             logger.info(message);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(topico);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> destroy(@PathVariable("id") Long id) {
+            topicoService.eliminarTopico(id);
+            message = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_DELETED;
+            logger.info(message);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(message);
     }
 
 }

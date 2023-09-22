@@ -14,4 +14,8 @@ public interface TopicoInterface {
     void registrarTopico(DtoCrearTopico topico);
 
     void actualizarTopico(Long id, DtoActualizarTopico topico);
+
+    void eliminarTopico(Long id);
+
+    List<DtoListarTopico> listarTopicosPorEstatus(String estatus);
 }

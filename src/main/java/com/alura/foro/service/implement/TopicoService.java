@@ -43,6 +43,7 @@ public class TopicoService implements TopicoInterface {
         topicoModel.setIdUsuario(topico.idUsuario());
         topicoModel.setEstatus(Estatus.ABIERTO);
         topicoModel.setFechaCreacion(LocalDateTime.now());
+        topicoModel.setFechaActualizacion(LocalDateTime.now());
         topicoRepository.save(topicoModel);
     }
 
@@ -69,5 +70,18 @@ public class TopicoService implements TopicoInterface {
             topicoModel.setIdUsuario(topico.idUsuario());
         }
         topicoModel.setFechaActualizacion(LocalDateTime.now());
+    }
+
+    @Override
+    @Transactional
+    public void eliminarTopico(Long id) {
+        topicoRepository.findById(id).orElseThrow();
+        topicoRepository.deleteById(id);
+    }
+
+    @Override
+    public List<DtoListarTopico> listarTopicosPorEstatus(String estatus) {
+        List<Topico> topicos = topicoRepository.findByEstatus(Estatus.valueOf(estatus));
+        return topicos.stream().map(DtoListarTopico::new).toList();
     }
 }

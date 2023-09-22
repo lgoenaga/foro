@@ -3,6 +3,7 @@ package com.alura.foro.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,16 +24,18 @@ public class Discusion implements Serializable {
     private Long id;
 
     @Column(nullable = false, length = 300)
-    private String mensaje;
-
-    @Column(nullable = false, length = 100)
     @NotNull(message = "Id de tópico es obligatorio")
     @NotEmpty(message = "Id de tópico no puede estar vacío")
+    private String mensaje;
+
+    @Column(nullable = false)
+    @NotNull(message = "Id de tópico es obligatorio")
+    @Positive(message = "Id de usuario debe ser numérico y mayor a cero")
     private Long idTopico;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     @NotNull(message = "Id de usuario es obligatorio")
-    @NotEmpty(message = "Id de usuario no puede estar vacío")
+    @Positive(message = "Id de usuario debe ser numérico y mayor a cero")
     private Long idUsuario;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

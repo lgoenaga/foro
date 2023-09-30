@@ -1,5 +1,6 @@
 package com.alura.foro.model;
 
+import com.alura.foro.util.ConstantService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -21,15 +22,15 @@ public class Curso implements Serializable {
     private Long id;
 
     @Column(unique = true, nullable = false, length = 100)
-    @NotNull(message = "Nombre de curso es obligatorio")
-    @NotEmpty(message = "Nombre de curso no puede estar vacío")
+    @NotNull(message = "Nombre de " + ConstantService.MODEL_COURSE + " " + ConstantService.OBLIGATORIO)
+    @NotEmpty(message = "Nombre de " + ConstantService.MODEL_COURSE + " " + ConstantService.NO_VACIO)
     private String nombre;
 
     @Column(length = 100)
     private String descripcion;
 
     @Column(nullable = false, length = 100)
-    @NotNull(message = "Estado es obligatorio")
+    @NotNull(message = "Estado " + ConstantService.OBLIGATORIO)
     @Enumerated(EnumType.STRING)
     private Estado estado;
 

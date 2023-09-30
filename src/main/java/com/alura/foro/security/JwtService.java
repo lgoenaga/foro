@@ -1,6 +1,7 @@
 package com.alura.foro.security;
 
 import com.alura.foro.model.Usuario;
+import com.alura.foro.util.ConstantService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -50,17 +51,15 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
     public String getUsernameFromToken(String token) {
-        String usernameFromToken = extractClaims(token).getSubject();
-        return usernameFromToken;
+        return extractClaims(token).getSubject();
     }
 
     private Claims extractClaims(String token) {
-            Claims claims = Jwts.parserBuilder()
+        return Jwts.parserBuilder()
                     .setSigningKey(getKey())
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-            return claims;
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
@@ -69,9 +68,9 @@ public class JwtService {
 
         boolean tokenValido = (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
         if (tokenValido) {
-            logger.info("Token Valido");
+            logger.info(ConstantService.TOKEN_VALIDO);
         } else {
-            logger.info("Token Invalido");
+            logger.info(ConstantService.TOKEN_INVALIDO);
         }
 
         return tokenValido;

@@ -1,5 +1,6 @@
 package com.alura.foro.model;
 
+import com.alura.foro.util.ConstantService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -24,18 +25,18 @@ public class Discusion implements Serializable {
     private Long id;
 
     @Column(nullable = false, length = 300)
-    @NotNull(message = "Id de tópico es obligatorio")
-    @NotEmpty(message = "Id de tópico no puede estar vacío")
+    @NotNull(message = "Id de " + ConstantService.MODEL_TOPIC + " " + ConstantService.OBLIGATORIO)
+    @NotEmpty(message = "Id de " + ConstantService.MODEL_TOPIC + " " + ConstantService.NO_VACIO)
     private String mensaje;
 
     @Column(nullable = false)
-    @NotNull(message = "Id de tópico es obligatorio")
-    @Positive(message = "Id de usuario debe ser numérico y mayor a cero")
+    @NotNull(message = "Id de " + ConstantService.MODEL_TOPIC + " " + ConstantService.OBLIGATORIO)
+    @Positive(message = "Id de " + ConstantService.MODEL_USER + ConstantService.NUMERICO + " y " + "mayor a cero")
     private Long idTopico;
 
     @Column(nullable = false)
-    @NotNull(message = "Id de usuario es obligatorio")
-    @Positive(message = "Id de usuario debe ser numérico y mayor a cero")
+    @NotNull(message = "Id de " + ConstantService.MODEL_USER + " " + ConstantService.OBLIGATORIO)
+    @Positive(message = "Id de " + ConstantService.MODEL_USER + ConstantService.NUMERICO + " y " + "mayor a cero")
     private Long idUsuario;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

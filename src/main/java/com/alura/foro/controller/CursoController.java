@@ -15,23 +15,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/cursos")
 @RequiredArgsConstructor
-@Tag(name = "Curso", description = "API Curso")
+@Tag(name = ConstantService.MODEL_COURSE, description = "API " + ConstantService.MODEL_COURSE)
 public class CursoController {
 
     final CursoService cursoService;
 
-    String message;
-    Logger logger  = Logger.getLogger(CursoController.class.getName());
-
     @Operation(
-            summary = "Listar cursos",
-            description = "Listar cursos",
-            tags = { "Curso" }
+            summary = ConstantService.LIST  + ConstantService.MODEL_COURSE + "s",
+            description = ConstantService.LIST + ConstantService.MODEL_COURSE + "s",
+            tags = { ConstantService.MODEL_COURSE }
     )
     @ApiResponse(responseCode = "200", description = "Cursos encontrados")
     @GetMapping
@@ -41,9 +37,9 @@ public class CursoController {
     }
 
     @Operation(
-            summary = "Listar cursos por estado",
-            description = "Listar cursos por estado",
-            tags = { "Curso" }
+            summary = ConstantService.LIST + " "  + ConstantService.MODEL_COURSE + "s por estado",
+            description = ConstantService.LIST + " " + ConstantService.MODEL_COURSE + "s por estado",
+            tags = { ConstantService.MODEL_COURSE }
     )
     @ApiResponse(responseCode = "200", description = "Cursos por estado encontrados")
     @GetMapping("/estados/{estado}")
@@ -53,57 +49,51 @@ public class CursoController {
     }
 
     @Operation(
-            summary = "Buscar curso por id",
-            description = "Buscar curso por id",
-            tags = { "Curso" }
+            summary = ConstantService.FOUND + ConstantService.MODEL_COURSE + " por id",
+            description = ConstantService.FOUND + ConstantService.MODEL_COURSE + " por id",
+            tags = { ConstantService.MODEL_COURSE }
     )
-    @ApiResponse(responseCode = "202", description = "Curso encontrado")
+    @ApiResponse(responseCode = "202", description = ConstantService.MODEL_COURSE + " " + ConstantService.INFO_FOUND)
     @GetMapping("/{id}")
     public ResponseEntity<Object> show(@PathVariable("id") Long id) {
         DtoListarCurso curso = cursoService.buscarCurso(id);
-        message = ConstantService.MODEL_COURSE + " " + ConstantService.INFO_FOUND;
-        logger.info(message);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(curso);
     }
     @Operation(
-            summary = "Crear curso",
-            description = "Crear curso",
-            tags = { "Curso" }
+            summary = ConstantService.CREATE + ConstantService.MODEL_COURSE,
+            description = ConstantService.CREATE + ConstantService.MODEL_COURSE,
+            tags = { ConstantService.MODEL_COURSE }
     )
-    @ApiResponse(responseCode = "201", description = "Curso creado")
+    @ApiResponse(responseCode = "201", description = ConstantService.MODEL_COURSE + " " + ConstantService.INFO_CREATED)
     @PostMapping
     public ResponseEntity<Object> store(@RequestBody @Valid DtoCrearCurso curso) {
         cursoService.crearCurso(curso);
-        message = ConstantService.MODEL_COURSE + " " + ConstantService.INFO_CREATED;
-        logger.info(message);
         return ResponseEntity.status(HttpStatus.CREATED).body(curso);
     }
 
     @Operation(
-            summary = "Actualizar curso",
-            description = "Actualizar curso",
-            tags = { "Curso" }
+            summary = ConstantService.CREATE + " " + ConstantService.MODEL_COURSE,
+            description = ConstantService.CREATE + " " + ConstantService.MODEL_COURSE,
+            tags = { ConstantService.MODEL_COURSE }
     )
-    @ApiResponse(responseCode = "202", description = "Curso actualizado")
+    @ApiResponse(responseCode = "202", description = ConstantService.MODEL_COURSE + " " + ConstantService.INFO_UPDATED)
     @PutMapping("/{id}")
     public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody @Valid DtoActualizarCurso curso) {
         cursoService.actualizarCurso(id, curso);
-        message = ConstantService.MODEL_COURSE + " " + ConstantService.INFO_UPDATED;
-        logger.info(message);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(curso);
     }
 
     @Operation(
-            summary = "Eliminar curso",
-            description = "Eliminar curso",
-            tags = { "Curso" }
+            summary = ConstantService.DELETE + " " + ConstantService.MODEL_COURSE,
+            description = ConstantService.DELETE + " " + ConstantService.MODEL_COURSE,
+            tags = { ConstantService.MODEL_COURSE }
     )
-    @ApiResponse(responseCode = "202", description = "Curso eliminado")
+    @ApiResponse(responseCode = "202", description = ConstantService.MODEL_COURSE + " " + ConstantService.INFO_DELETED)
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> destroy(@PathVariable("id") Long id) {
+        String message;
         cursoService.eliminarCurso(id);
         message = ConstantService.MODEL_COURSE + " " + ConstantService.INFO_DELETED;
-        logger.info(message);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(message);
     }
 

@@ -15,22 +15,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/usuarios")
 @RequiredArgsConstructor
-@Tag(name = "Usuario", description = "API Usuario")
+@Tag(name = ConstantService.MODEL_USER, description = "API " + ConstantService.MODEL_USER)
 public class UsuarioController {
 
     final UsuarioService usuarioService;
-    String message;
-    Logger logger  = Logger.getLogger(UsuarioController.class.getName());
 
     @Operation(
-            summary = "Listar usuarios",
-            description = "Listar todos los usuarios",
-            tags = { "Usuarios" }
+            summary = ConstantService.LIST + " " + ConstantService.MODEL_USER + "s",
+            description = ConstantService.LIST + " todos los" + ConstantService.MODEL_USER + "s",
+            tags = { ConstantService.MODEL_USER }
     )
     @ApiResponse(responseCode = "200", description = "Usuarios encontrados")
     @GetMapping
@@ -40,9 +37,9 @@ public class UsuarioController {
     }
 
     @Operation(
-            summary = "Listar usuarios por estado",
-            description = "Listar todos los usuarios por estado",
-            tags = { "Usuarios" }
+            summary = ConstantService.LIST + " " + ConstantService.MODEL_USER + "s por estado",
+            description = ConstantService.LIST + " todos los" + ConstantService.MODEL_USER + "s por estado",
+            tags = { ConstantService.MODEL_USER }
     )
     @ApiResponse(responseCode = "200", description = "Usuarios por estado encontrados")
     @GetMapping("/estados/{estado}")
@@ -52,58 +49,52 @@ public class UsuarioController {
     }
 
     @Operation(
-            summary = "Buscar usuario",
-            description = "Buscar usuario por id",
-            tags = { "Usuarios" }
+            summary = ConstantService.FOUND + " " + ConstantService.MODEL_USER + " por id",
+            description = ConstantService.FOUND + " " + ConstantService.MODEL_USER + " por id",
+            tags = { ConstantService.MODEL_USER }
     )
-    @ApiResponse(responseCode = "202", description = "Usuario encontrado")
+    @ApiResponse(responseCode = "202", description = ConstantService.MODEL_USER + " " + ConstantService.INFO_FOUND)
     @GetMapping("/{id}")
     public ResponseEntity<Object> show(@PathVariable("id") Long id){
             DtoListarUsuario userDtoResponse = usuarioService.listarUsuario(id);
-            message = ConstantService.MODEL_USER + " " + ConstantService.INFO_FOUND;
-            logger.info(message);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(userDtoResponse);
     }
 
     @Operation(
-            summary = "Registrar usuario",
-            description = "Registrar usuario",
-            tags = { "Usuarios" }
+            summary = ConstantService.CREATE + " " + ConstantService.MODEL_USER,
+            description = ConstantService.CREATE + " " + ConstantService.MODEL_USER,
+            tags = { ConstantService.MODEL_USER }
     )
-    @ApiResponse(responseCode = "201", description = "Usuario creado")
+    @ApiResponse(responseCode = "201", description = ConstantService.MODEL_USER + " " + ConstantService.INFO_CREATED)
     @PostMapping
     public ResponseEntity<Object> store(@RequestBody @Valid DtoCrearUsuario userDtoRequest){
         usuarioService.registrarUsuario(userDtoRequest);
-        message = ConstantService.MODEL_USER + " " + ConstantService.INFO_CREATED;
-        logger.info(message);
         return ResponseEntity.status(HttpStatus.CREATED).body(userDtoRequest);
     }
 
     @Operation(
-            summary = "Actualizar usuario",
-            description = "Actualizar usuario por id",
-            tags = { "Usuarios" }
+            summary = ConstantService.UPDATE + " " + ConstantService.MODEL_USER,
+            description = ConstantService.UPDATE + " " + ConstantService.MODEL_USER + " por id",
+            tags = { ConstantService.MODEL_USER }
     )
-    @ApiResponse(responseCode = "202", description = "Usuario actualizado")
+    @ApiResponse(responseCode = "202", description = ConstantService.MODEL_USER + " " + ConstantService.INFO_UPDATED)
     @PutMapping("/{id}")
     public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody @Valid DtoActualizarUsuario userDtoRequest){
         usuarioService.actualizarUsuario(id, userDtoRequest);
-        message = ConstantService.MODEL_USER + " " + ConstantService.INFO_UPDATED;
-        logger.info(message);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(userDtoRequest);
     }
 
     @Operation(
-            summary = "Eliminar usuario",
-            description = "Eliminar usuario por id",
-            tags = { "Usuarios" }
+            summary = ConstantService.DELETE + " " + ConstantService.MODEL_USER,
+            description = ConstantService.DELETE + " " + ConstantService.MODEL_USER + " por id",
+            tags = { ConstantService.MODEL_USER }
     )
-    @ApiResponse(responseCode = "202", description = "Usuario eliminado")
+    @ApiResponse(responseCode = "202", description = ConstantService.MODEL_USER + " " + ConstantService.INFO_DELETED)
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> destroy(@PathVariable("id") Long id){
+        String message;
         usuarioService.eliminarUsuario(id);
         message = ConstantService.MODEL_USER + " " + ConstantService.INFO_DELETED;
-        logger.info(message);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(message);
     }
 

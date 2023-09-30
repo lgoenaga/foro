@@ -1,9 +1,13 @@
 package com.alura.foro.model;
 
+import com.alura.foro.util.ConstantService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,20 +33,20 @@ public class Usuario implements Serializable, UserDetails {
     private Long id;
 
     @Column(unique = true, nullable = false, length = 100)
-    @NotNull(message = "Nombre de usuario es obligatorio")
-    @NotEmpty(message = "Nombre de usuario no puede estar vacío")
+    @NotNull(message = "Nombre de " + ConstantService.MODEL_USER + " " + ConstantService.OBLIGATORIO)
+    @NotEmpty(message = "Nombre de " + ConstantService.MODEL_USER + " " + ConstantService.NO_VACIO)
     private String username;
 
     @Column(nullable = false, length = 100)
-    @NotNull(message = "Password es obligatorio")
-    @NotEmpty(message = "Password no puede estar vacío")
+    @NotNull(message = "Password " + ConstantService.OBLIGATORIO)
+    @NotEmpty(message = "Password " + ConstantService.NO_VACIO)
     private String password;
 
     @Column(length = 100)
     private String nombre;
 
     @Column(nullable = false, length = 100)
-    @NotNull(message = "Estado es obligatorio")
+    @NotNull(message = "Estado " + ConstantService.OBLIGATORIO)
     @Enumerated(EnumType.STRING)
     @Setter
     private Estado estado;
@@ -55,16 +59,21 @@ public class Usuario implements Serializable, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> roles = new ArrayList<>();
-        this.roles.forEach(role -> {
-            roles.add(new GrantedAuthority() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        for (Role role: roles) {
+            authorities.add(new GrantedAuthority() {
+                @Serial
+                private static final long serialVersionUID = 1L;
+
                 @Override
                 public String getAuthority() {
                     return role.getRol();
                 }
             });
-        });
-        return roles;
+        }
+
+        return authorities;
     }
 
     @Override

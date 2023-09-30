@@ -14,23 +14,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.logging.Logger;
-
 @RestController
 @RequestMapping("/roles")
 @RequiredArgsConstructor
-@Tag(name = "Role", description = "API Role")
+@Tag(name = ConstantService.MODEL_ROLE, description = "API " + ConstantService.MODEL_ROLE)
 public class RoleController {
 
     final RoleService roleService;
 
-    String message;
-    Logger logger  = Logger.getLogger(RoleController.class.getName());
 
     @Operation(
             summary = "Listar Roles",
             description = "Listar Roles",
-            tags = { "Role" }
+            tags = {ConstantService.MODEL_ROLE}
     )
     @ApiResponse(responseCode = "200", description = "Roles encontrados")
     @GetMapping
@@ -39,16 +35,14 @@ public class RoleController {
     }
 
     @Operation(
-            summary = "Buscar Role",
-            description = "Buscar Role",
-            tags = { "Role" }
+            summary = "Buscar " + ConstantService.MODEL_ROLE,
+            description = "Buscar " + ConstantService.MODEL_ROLE,
+            tags = {ConstantService.MODEL_ROLE}
     )
-    @ApiResponse(responseCode = "202", description = "Role encontrado")
+    @ApiResponse(responseCode = "202", description = ConstantService.MODEL_ROLE + " " + ConstantService.INFO_FOUND)
     @GetMapping("/{id}")
     public ResponseEntity<Object> show(@PathVariable("id") Long id){
             Role role = roleService.listarRol(id);
-            message = ConstantService.MODEL_ROLE + " " + ConstantService.INFO_FOUND;
-            logger.info(message);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(role);
     }
 

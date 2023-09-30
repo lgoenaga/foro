@@ -1,5 +1,6 @@
 package com.alura.foro.model;
 
+import com.alura.foro.util.ConstantService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +11,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "topicos")
@@ -25,25 +25,25 @@ public class Topico implements Serializable {
     private Long id;
 
     @Column(unique = true, nullable = false, length = 100)
-    @NotNull(message = "Título es obligatorio")
-    @NotEmpty(message = "Título no puede estar vacío")
+    @NotNull(message = "Título " + ConstantService.OBLIGATORIO)
+    @NotEmpty(message = "Título " + ConstantService.NO_VACIO)
     private String titulo;
 
     @Column(length = 100)
     private String descripcion;
 
     @Column(nullable = false)
-    @NotNull(message = "Id de curso es obligatorio")
-    @Positive(message = "Id de curso debe ser numérico y mayor a cero")
+    @NotNull(message = "Id de " + ConstantService.MODEL_COURSE + " " + ConstantService.OBLIGATORIO)
+    @Positive(message = "Id de " + ConstantService.MODEL_COURSE + ConstantService.NUMERICO + " y " + "mayor a cero")
     private Long idCurso;
 
     @Column(nullable = false)
-    @NotNull(message = "Id de usuario es obligatorio")
-    @Positive(message = "Id de usuario debe ser numérico y mayor a cero")
+    @NotNull(message = "Id de " + ConstantService.MODEL_USER + " " + ConstantService.OBLIGATORIO)
+    @Positive(message = "Id de " + ConstantService.MODEL_USER + ConstantService.NUMERICO + " y " + "mayor a cero")
     private Long idUsuario;
 
     @Column(nullable = false, length = 100)
-    @NotNull(message = "Estado es obligatorio")
+    @NotNull(message = "Estado " + ConstantService.OBLIGATORIO)
     @Enumerated(EnumType.STRING)
     private Estatus estatus;
 

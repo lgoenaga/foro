@@ -1,6 +1,7 @@
 package com.alura.foro.config;
 
 import com.alura.foro.security.JwtAuthenticationFilter;
+import com.alura.foro.util.ConstantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,9 +35,9 @@ public class WebSecurityConfig {
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/auth/login/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/topicos/**").permitAll()
-                                .requestMatchers("/usuarios/**").hasRole("ADMIN")
-                                .requestMatchers("/roles/**").hasRole("ADMIN")
-                                .requestMatchers("/actuator/**").hasRole("ADMIN")
+                                .requestMatchers("/usuarios/**").hasRole(ConstantService.ADMIN)
+                                .requestMatchers("/roles/**").hasRole(ConstantService.ADMIN)
+                                .requestMatchers("/actuator/**").hasRole(ConstantService.ADMIN)
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->

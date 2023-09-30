@@ -14,69 +14,61 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping ("/discusiones")
 @RequiredArgsConstructor
-@Tag(name = "Discusion", description = "API Discusion")
+@Tag(name = ConstantService.MODEL_DISCUSSION, description = "API " + ConstantService.MODEL_DISCUSSION)
 public class DiscusionController {
 
     final DiscusionService discusionService;
 
-    String message;
-    Logger logger  = Logger.getLogger(DiscusionController.class.getName());
-
-    @Operation(summary = "Listar Discusiones",
-            description = "Listar todas las discusiones",
-            tags = { "discusiones" }
+    @Operation(summary = ConstantService.LIST + " Discusiones",
+            description = ConstantService.LIST + " todas las discusiones",
+            tags = { ConstantService.MODEL_DISCUSSION }
     )
     @ApiResponse(responseCode = "200", description = "Discusiones encontradas")
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @PreAuthorize(ConstantService.ADMIN_USER_SEC)
     public ResponseEntity<Object> index() {
         List<DtoListarDiscusion> discusiones = discusionService.listarDiscusiones();
         return ResponseEntity.ok().body(discusiones);
     }
 
-    @Operation(summary = "Listar Discusiones por estado",
-            description = "Listar todas las discusiones por estado",
-            tags = { "discusiones" }
+    @Operation(summary = ConstantService.LIST + " Discusiones por estado",
+            description = ConstantService.LIST + " todas las discusiones por estado",
+            tags = { ConstantService.MODEL_DISCUSSION }
     )
-    @ApiResponse(responseCode = "202", description = "Discusión encontrada")
+    @ApiResponse(responseCode = "202", description = "Discusiones encontradas")
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @PreAuthorize(ConstantService.ADMIN_USER_SEC)
     public ResponseEntity<Object> show(@PathVariable("id") Long id) {
         DtoListarDiscusion discusion = discusionService.buscarDiscusion(id);
-        message = ConstantService.MODEL_DISCUSSION + " " + ConstantService.INFO_FOUND;
-        logger.info(message);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(discusion);
     }
 
-    @Operation(summary = "Crear Discusión",
-            description = "Crear una discusión",
-            tags = { "discusiones" }
+    @Operation(summary = ConstantService.CREATE + " " + ConstantService.MODEL_DISCUSSION,
+            description = ConstantService.CREATE + " " + ConstantService.MODEL_DISCUSSION,
+            tags = { ConstantService.MODEL_DISCUSSION }
     )
-    @ApiResponse(responseCode = "201", description = "Discusión creada")
+    @ApiResponse(responseCode = "201", description = ConstantService.MODEL_DISCUSSION + " creada")
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @PreAuthorize(ConstantService.ADMIN_USER_SEC)
     public ResponseEntity<Object> store(@RequestBody DtoCrearDiscusion discusion) {
         discusionService.registrarDiscusion(discusion);
-        message = ConstantService.MODEL_DISCUSSION + " " + ConstantService.INFO_CREATED;
-        logger.info(message);
         return ResponseEntity.status(HttpStatus.CREATED).body(discusion);
     }
-    @Operation(summary = "Actualizar Discusión",
-            description = "Actualizar una discusión",
-            tags = { "discusiones" }
+    @Operation(summary = ConstantService.UPDATE + " " + ConstantService.MODEL_DISCUSSION,
+            description = ConstantService.UPDATE + " " + ConstantService.MODEL_DISCUSSION,
+            tags = { ConstantService.MODEL_DISCUSSION }
     )
-    @ApiResponse(responseCode = "202", description = "Discusión actualizada")
+    @ApiResponse(responseCode = "202", description = ConstantService.MODEL_DISCUSSION + " actualizada")
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize(ConstantService.ADMIN_SEC)
     public ResponseEntity<Object> destroy(@PathVariable("id") Long id) {
+        String message;
         discusionService.eliminarDiscusion(id);
         message = ConstantService.MODEL_DISCUSSION + " " + ConstantService.INFO_DELETED;
-        logger.info(message);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(message);
     }
 }

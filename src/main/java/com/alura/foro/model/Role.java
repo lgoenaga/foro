@@ -1,5 +1,6 @@
 package com.alura.foro.model;
 
+import com.alura.foro.util.ConstantService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -24,8 +24,8 @@ public class Role implements Serializable {
     private Long id;
 
     @Column(unique = true, nullable = false, length = 20)
-    @NotNull(message = "Rol es obligatorio")
-    @NotEmpty(message = "Rol no puede estar vacío")
+    @NotNull(message = "Rol " + ConstantService.OBLIGATORIO)
+    @NotEmpty(message = "Rol " + ConstantService.NO_VACIO)
     private String rol;
 
 

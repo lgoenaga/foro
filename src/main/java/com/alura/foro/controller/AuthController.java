@@ -33,15 +33,15 @@ public class AuthController {
     )
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginRequest request){
-        Object AuthResponse = authService.login(request);
+        Object authResponse = authService.login(request);
         message = ConstantService.MODEL_USER + " " + ConstantService.LOGIN_SUCCESS;
         logger.info(message);
-        if (AuthResponse == null) {
+        if (authResponse == null) {
             message = ConstantService.MODEL_USER + " " + ConstantService.LOGIN_ERROR;
             logger.warning(message);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
         }
-        return ResponseEntity.ok().body(AuthResponse);
+        return ResponseEntity.ok().body(authResponse);
 
     }
 

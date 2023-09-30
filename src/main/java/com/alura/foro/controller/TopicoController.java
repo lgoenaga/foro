@@ -17,107 +17,91 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/topicos")
 @RequiredArgsConstructor
-@Tag(name = "Topico", description = "API Topico")
+@Tag(name = ConstantService.MODEL_TOPIC, description = "API " + ConstantService.MODEL_TOPIC)
 public class TopicoController {
 
     final TopicoService topicoService;
     final UsuarioService usuarioService;
-    String message;
-    Logger logger  = Logger.getLogger(TopicoController.class.getName());
 
     @Operation(
-            summary = "Listar topicos",
-            description = "Listar todos los topicos",
-            tags = { "Topicos" }
+            summary = ConstantService.LIST + " " +  ConstantService.TOPICOS,
+            description = ConstantService.LIST + " " +  ConstantService.TOPICOS,
+            tags = { ConstantService.TOPICOS }
     )
-    @ApiResponse(responseCode = "200", description = "Topicos encontrados")
+    @ApiResponse(responseCode = "200", description = ConstantService.TOPICOS + " encontrados")
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<Object> index() {
             List<DtoListarTopico> topicos = topicoService.listarTopicos();
-            message = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_FOUND;
-            logger.info(message);
             return ResponseEntity.ok().body(topicos);
     }
 
     @Operation(
-            summary = "Lista topico por id",
-            description = "Listar topico por id",
-            tags = { "Topicos" }
+            summary = ConstantService.LIST + " " + ConstantService.MODEL_TOPIC + " por id",
+            description = ConstantService.LIST + " " + ConstantService.MODEL_TOPIC + " por id",
+            tags = { ConstantService.TOPICOS }
     )
-    @ApiResponse(responseCode = "202", description = "Topico encontrado")
+    @ApiResponse(responseCode = "202", description = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_FOUND)
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<Object> show(@PathVariable("id") Long id) {
             DtoListarTopico topico = topicoService.listarTopico(id);
-            message = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_FOUND;
-            logger.info(message);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(topico);
     }
 
     @Operation(
-            summary = "Listar topicos por estado",
-            description = "Listar todos los topicos por estado",
-            tags = { "Topicos" }
+            summary = ConstantService.LIST + " " + ConstantService.TOPICOS + " por estado",
+            description = ConstantService.LIST + " todos los " + ConstantService.TOPICOS + " por estado",
+            tags = { ConstantService.TOPICOS }
     )
-    @ApiResponse(responseCode = "202", description = "Topicos encontrados")
+    @ApiResponse(responseCode = "202", description = ConstantService.TOPICOS + " encontrados")
     @GetMapping("/estatus/{estatus}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<Object> showByEstatus(@PathVariable("estatus") String estatus) {
             List<DtoListarTopico> topicos = topicoService.listarTopicosPorEstatus(estatus);
-            message = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_FOUND;
-            logger.info(message);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(topicos);
     }
 
     @Operation(
-            summary = "Registrar topico",
-            description = "Registrar topico",
-            tags = { "Topicos" }
+            summary = ConstantService.CREATE + " " + ConstantService.MODEL_TOPIC,
+            description = ConstantService.CREATE + " " + ConstantService.MODEL_TOPIC,
+            tags = { ConstantService.TOPICOS }
     )
-    @ApiResponse(responseCode = "201", description = "Topico registrado")
+    @ApiResponse(responseCode = "201", description = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_CREATED)
     @ApiResponse(responseCode = "403", description = "Usuario no autorizado")
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @PreAuthorize(ConstantService.ADMIN_USER_SEC)
     public ResponseEntity<Object> store(@RequestBody @Valid DtoCrearTopico topico) {
             topicoService.registrarTopico(topico);
-            message = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_CREATED;
-            logger.info(message);
             return ResponseEntity.status(HttpStatus.CREATED).body(topico);
     }
 
     @Operation(
-            summary = "Actualizar topico",
-            description = "Actualizar topico por id",
-            tags = { "Topicos" }
+            summary = ConstantService.UPDATE + " " + ConstantService.MODEL_TOPIC,
+            description = ConstantService.UPDATE + " " + ConstantService.MODEL_TOPIC + " por id",
+            tags = { ConstantService.TOPICOS }
     )
-    @ApiResponse(responseCode = "202", description = "Topico actualizado")
+    @ApiResponse(responseCode = "202", description = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_UPDATED)
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @PreAuthorize(ConstantService.ADMIN_USER_SEC)
     public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody @Valid DtoActualizarTopico topico) {
             topicoService.actualizarTopico(id, topico);
-            message = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_UPDATED;
-            logger.info(message);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(topico);
     }
 
     @Operation(
-            summary = "Eliminar topico",
-            description = "Eliminar topico por id",
-            tags = { "Topicos" }
+            summary = ConstantService.DELETE + " " + ConstantService.MODEL_TOPIC,
+            description = ConstantService.DELETE + " " + ConstantService.MODEL_TOPIC + " por id",
+            tags = { ConstantService.TOPICOS }
     )
-    @ApiResponse(responseCode = "202", description = "Topico eliminado")
+    @ApiResponse(responseCode = "202", description = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_DELETED)
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize(ConstantService.ADMIN_SEC)
     public ResponseEntity<Object> destroy(@PathVariable("id") Long id) {
+            String message;
             topicoService.eliminarTopico(id);
             message = ConstantService.MODEL_TOPIC + " " + ConstantService.INFO_DELETED;
-            logger.info(message);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(message);
     }
 

@@ -21,6 +21,30 @@ public class ConstantService {
     public static final String LOGIN_SUCCESS = "Login exitoso";
     public static final String LOGIN_ERROR = "Login fallido";
 
+    public static final String ADMIN = "ADMIN";
+
+    public static final String ROLE_USER = "ROLE_USER";
+
+    public static final String TOPICOS = "Tópicos";
+
+    public static final String ADMIN_USER_SEC = "hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')";
+
+    public static final String ADMIN_SEC = "hasRole('ROLE_ADMIN')";
+
+    public static final String CREATE = "Crear";
+    public static final String UPDATE = "Actualizar";
+    public static final String DELETE = "Eliminar";
+    public static final String LIST = "Listar";
+    public static final String FOUND = "Buscar";
+
+    public static final String OBLIGATORIO = "es obligatorio";
+    public static final String NUMERICO = "debe ser numérico";
+
+    public static final String NO_VACIO = "no puede estar vacío";
+
+    public static final String TOKEN_VALIDO = "Token válido";
+    public static final String TOKEN_INVALIDO = "Token inválido";
+
     private ConstantService() {
     }
 

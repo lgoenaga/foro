@@ -1,5 +1,6 @@
 package com.alura.foro.config;
 
+import com.alura.foro.repository.RoleRepository;
 import com.alura.foro.repository.UsuarioRepository;
 import com.alura.foro.service.implement.UsuarioService;
 import io.swagger.v3.oas.models.Components;
@@ -25,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ApplicationConfig {
 
     final UsuarioRepository usuarioRepository;
+    final RoleRepository roleRepository;
 
 
     @Bean
@@ -48,7 +50,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UsuarioService(usuarioRepository,passwordEncoder());
+        return new UsuarioService(usuarioRepository, roleRepository, passwordEncoder());
     }
 
     @Bean
@@ -58,7 +60,7 @@ public class ApplicationConfig {
                 .components(new Components().addSecuritySchemes
                         ("Bearer Authentication", createAPIKeyScheme()))
                 .info(new Info().title("REST aplicación Foro")
-                        .description("CRUD para gestionar usuarios, topicos y discusiones.")
+                        .description("CRUD para gestionar usuarios, tópicos y discusiones.")
                         .version("1.0").contact(new Contact().name("Luis Goenaga")
                                 .email( "luis.goenaga@est.iudigital.edu.co").url("https://www.technodeveloper.net"))
                         .license(new License().name("License of API")

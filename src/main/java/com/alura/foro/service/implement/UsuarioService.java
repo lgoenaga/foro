@@ -9,16 +9,20 @@ import com.alura.foro.repository.UsuarioRepository;
 import com.alura.foro.service.interfaces.UsuarioInterface;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UsuarioService implements UsuarioInterface {
+public class UsuarioService implements UsuarioInterface, UserDetailsService {
 
     final UsuarioRepository usuarioRepository;
+    final PasswordEncoder passwordEncoder;
 
     @Override
     public List<DtoListarUsuario> listarUsuarios() {
@@ -43,7 +47,10 @@ public class UsuarioService implements UsuarioInterface {
     public void registrarUsuario(DtoCrearUsuario dtoCrearUsuario) {
         Usuario usuario = new Usuario();
         usuario.setUsername(dtoCrearUsuario.username());
-        usuario.setPassword(dtoCrearUsuario.password());
+
+        if (dtoCrearUsuario.password()!=null) {
+            usuario.setPassword(passwordEncoder.encode(dtoCrearUsuario.password()));
+        }
         usuario.setNombre(dtoCrearUsuario.nombre());
         usuario.setEstado(Estado.ACTIVO);
         usuarioRepository.save(usuario);
@@ -58,7 +65,7 @@ public class UsuarioService implements UsuarioInterface {
         if (userDtoRequest.password()==null) {
             usuario.setPassword(usuario.getPassword());
         }else{
-            usuario.setPassword(userDtoRequest.password());
+            usuario.setPassword(passwordEncoder.encode(userDtoRequest.password()));
         }
         usuario.setNombre(userDtoRequest.nombre());
         if (userDtoRequest.estado()==null) {
@@ -75,4 +82,8 @@ public class UsuarioService implements UsuarioInterface {
         usuarioRepository.deleteById(id);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username){
+        return usuarioRepository.findByUsername(username).orElseThrow();
+    }
 }

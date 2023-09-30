@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -26,5 +27,6 @@ public class Role implements Serializable {
     @NotNull(message = "Rol es obligatorio")
     @NotEmpty(message = "Rol no puede estar vacío")
     private String rol;
+
 
 }

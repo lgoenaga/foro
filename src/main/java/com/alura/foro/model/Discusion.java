@@ -40,4 +40,5 @@ public class Discusion implements Serializable {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaCreacion;
+
 }

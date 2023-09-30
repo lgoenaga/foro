@@ -1,11 +1,15 @@
 package com.alura.foro.exception;
 
 import com.alura.foro.util.ConstantService;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.UnexpectedTypeException;
+import org.springframework.boot.json.JsonParseException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -66,4 +70,31 @@ public class TracerExceptions {
     public ResponseEntity<Object> constraintViolationException(ConstraintViolationException e) {
         return ResponseEntity.status(412).body(ConstantService.VALIDATION_FAILED+"\n"+ e.getMessage());
     }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Object> badCredentialsException(BadCredentialsException e) {
+        return ResponseEntity.status(401).body(ConstantService.ERROR_UNAUTHORIZED+"\n"+ e.getMessage());
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    public ResponseEntity<Object> signatureException(SignatureException e) {
+        return ResponseEntity.status(401).body(ConstantService.ERROR_UNAUTHORIZED+"\n"+ e.getMessage());
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    public ResponseEntity<Object> malformedJwtException(MalformedJwtException e) {
+        return ResponseEntity.status(401).body(ConstantService.ERROR_UNAUTHORIZED+"\n"+ e.getMessage());
+    }
+
+    @ExceptionHandler(JsonParseException.class)
+    public ResponseEntity<Object> jsonParseException(JsonParseException e) {
+        return ResponseEntity.status(400).body(ConstantService.ERROR_BAD_REQUEST+"\n"+ e.getMessage());
+    }
+
+
+
+
+
+
+
 }

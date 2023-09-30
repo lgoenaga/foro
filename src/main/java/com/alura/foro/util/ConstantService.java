@@ -17,6 +17,9 @@ public class ConstantService {
     public static final String INFO_UPDATED = "actualizado";
     public static final Object ERROR_BAD_REQUEST = "Error en la petición";
     public static final String INFO_DELETED = "eliminado";
+    public static final Object ERROR_UNAUTHORIZED = "No autorizado";
+    public static final String LOGIN_SUCCESS = "Login exitoso";
+    public static final String LOGIN_ERROR = "Login fallido";
 
     private ConstantService() {
     }

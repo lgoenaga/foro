@@ -4,6 +4,9 @@ import com.alura.foro.dto.request.crear.DtoCrearDiscusion;
 import com.alura.foro.dto.response.DtoListarDiscusion;
 import com.alura.foro.service.implement.DiscusionService;
 import com.alura.foro.util.ConstantService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +18,7 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping ("/discusiones")
 @RequiredArgsConstructor
+@Tag(name = "Discusion", description = "API Discusion")
 public class DiscusionController {
 
     final DiscusionService discusionService;
@@ -22,12 +26,22 @@ public class DiscusionController {
     String message;
     Logger logger  = Logger.getLogger(DiscusionController.class.getName());
 
+    @Operation(summary = "Listar Discusiones",
+            description = "Listar todas las discusiones",
+            tags = { "discusiones" }
+    )
+    @ApiResponse(responseCode = "200", description = "Discusiones encontradas")
     @GetMapping
     public ResponseEntity<Object> index() {
         List<DtoListarDiscusion> discusiones = discusionService.listarDiscusiones();
         return ResponseEntity.ok().body(discusiones);
     }
 
+    @Operation(summary = "Listar Discusiones por estado",
+            description = "Listar todas las discusiones por estado",
+            tags = { "discusiones" }
+    )
+    @ApiResponse(responseCode = "202", description = "Discusión encontrada")
     @GetMapping("/{id}")
     public ResponseEntity<Object> show(@PathVariable("id") Long id) {
         DtoListarDiscusion discusion = discusionService.buscarDiscusion(id);
@@ -36,6 +50,11 @@ public class DiscusionController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(discusion);
     }
 
+    @Operation(summary = "Crear Discusión",
+            description = "Crear una discusión",
+            tags = { "discusiones" }
+    )
+    @ApiResponse(responseCode = "201", description = "Discusión creada")
     @PostMapping
     public ResponseEntity<Object> store(@RequestBody DtoCrearDiscusion discusion) {
         discusionService.registrarDiscusion(discusion);
@@ -43,6 +62,11 @@ public class DiscusionController {
         logger.info(message);
         return ResponseEntity.status(HttpStatus.CREATED).body(discusion);
     }
+    @Operation(summary = "Actualizar Discusión",
+            description = "Actualizar una discusión",
+            tags = { "discusiones" }
+    )
+    @ApiResponse(responseCode = "202", description = "Discusión actualizada")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> destroy(@PathVariable("id") Long id) {
         discusionService.eliminarDiscusion(id);

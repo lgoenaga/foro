@@ -6,6 +6,9 @@ import com.alura.foro.dto.response.DtoListarTopico;
 import com.alura.foro.service.implement.TopicoService;
 import com.alura.foro.service.implement.UsuarioService;
 import com.alura.foro.util.ConstantService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,7 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping("/topicos")
 @RequiredArgsConstructor
+@Tag(name = "Topico", description = "API Topico")
 public class TopicoController {
 
     final TopicoService topicoService;
@@ -25,6 +29,12 @@ public class TopicoController {
     String message;
     Logger logger  = Logger.getLogger(TopicoController.class.getName());
 
+    @Operation(
+            summary = "Listar topicos",
+            description = "Listar todos los topicos",
+            tags = { "Topicos" }
+    )
+    @ApiResponse(responseCode = "200", description = "Topicos encontrados")
     @GetMapping
     public ResponseEntity<Object> index() {
             List<DtoListarTopico> topicos = topicoService.listarTopicos();
@@ -33,6 +43,12 @@ public class TopicoController {
             return ResponseEntity.ok().body(topicos);
     }
 
+    @Operation(
+            summary = "Lista topico por id",
+            description = "Listar topico por id",
+            tags = { "Topicos" }
+    )
+    @ApiResponse(responseCode = "202", description = "Topico encontrado")
     @GetMapping("/{id}")
     public ResponseEntity<Object> show(@PathVariable("id") Long id) {
             DtoListarTopico topico = topicoService.listarTopico(id);
@@ -41,6 +57,12 @@ public class TopicoController {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(topico);
     }
 
+    @Operation(
+            summary = "Listar topicos por estado",
+            description = "Listar todos los topicos por estado",
+            tags = { "Topicos" }
+    )
+    @ApiResponse(responseCode = "202", description = "Topicos encontrados")
     @GetMapping("/estatus/{estatus}")
     public ResponseEntity<Object> showByEstatus(@PathVariable("estatus") String estatus) {
             List<DtoListarTopico> topicos = topicoService.listarTopicosPorEstatus(estatus);
@@ -49,6 +71,13 @@ public class TopicoController {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(topicos);
     }
 
+    @Operation(
+            summary = "Registrar topico",
+            description = "Registrar topico",
+            tags = { "Topicos" }
+    )
+    @ApiResponse(responseCode = "201", description = "Topico registrado")
+    @ApiResponse(responseCode = "403", description = "Usuario no autorizado")
     @PostMapping
     public ResponseEntity<Object> store(@RequestBody @Valid DtoCrearTopico topico) {
             topicoService.registrarTopico(topico);
@@ -57,6 +86,12 @@ public class TopicoController {
             return ResponseEntity.status(HttpStatus.CREATED).body(topico);
     }
 
+    @Operation(
+            summary = "Actualizar topico",
+            description = "Actualizar topico por id",
+            tags = { "Topicos" }
+    )
+    @ApiResponse(responseCode = "202", description = "Topico actualizado")
     @PutMapping("/{id}")
     public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody @Valid DtoActualizarTopico topico) {
             topicoService.actualizarTopico(id, topico);
@@ -65,6 +100,12 @@ public class TopicoController {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(topico);
     }
 
+    @Operation(
+            summary = "Eliminar topico",
+            description = "Eliminar topico por id",
+            tags = { "Topicos" }
+    )
+    @ApiResponse(responseCode = "202", description = "Topico eliminado")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> destroy(@PathVariable("id") Long id) {
             topicoService.eliminarTopico(id);

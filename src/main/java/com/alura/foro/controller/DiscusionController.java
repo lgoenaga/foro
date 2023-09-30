@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class DiscusionController {
     )
     @ApiResponse(responseCode = "200", description = "Discusiones encontradas")
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<Object> index() {
         List<DtoListarDiscusion> discusiones = discusionService.listarDiscusiones();
         return ResponseEntity.ok().body(discusiones);
@@ -43,6 +45,7 @@ public class DiscusionController {
     )
     @ApiResponse(responseCode = "202", description = "Discusión encontrada")
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<Object> show(@PathVariable("id") Long id) {
         DtoListarDiscusion discusion = discusionService.buscarDiscusion(id);
         message = ConstantService.MODEL_DISCUSSION + " " + ConstantService.INFO_FOUND;
@@ -56,6 +59,7 @@ public class DiscusionController {
     )
     @ApiResponse(responseCode = "201", description = "Discusión creada")
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
     public ResponseEntity<Object> store(@RequestBody DtoCrearDiscusion discusion) {
         discusionService.registrarDiscusion(discusion);
         message = ConstantService.MODEL_DISCUSSION + " " + ConstantService.INFO_CREATED;
@@ -68,6 +72,7 @@ public class DiscusionController {
     )
     @ApiResponse(responseCode = "202", description = "Discusión actualizada")
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> destroy(@PathVariable("id") Long id) {
         discusionService.eliminarDiscusion(id);
         message = ConstantService.MODEL_DISCUSSION + " " + ConstantService.INFO_DELETED;

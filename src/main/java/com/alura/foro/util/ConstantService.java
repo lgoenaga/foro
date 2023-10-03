@@ -44,6 +44,9 @@ public class ConstantService {
 
     public static final String TOKEN_VALIDO = "Token válido";
     public static final String TOKEN_INVALIDO = "Token inválido";
+    public static final String REGISTER_SUCCESS = "registrado";
+    public static final String TOKEN_EXPIRADO = "Token expirado";
+    public static final Object ERROR_FORBIDDEN = "Acceso denegado";
 
     private ConstantService() {
     }

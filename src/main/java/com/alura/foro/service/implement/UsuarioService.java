@@ -110,6 +110,14 @@ public class UsuarioService implements UsuarioInterface, UserDetailsService {
     }
 
     @Override
+    public DtoListarUsuario buscarUsuario(String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow();
+        message = ConstantService.MODEL_USER + " " + username + " " + ConstantService.INFO_FOUND;
+        logger.info(message);
+        return new DtoListarUsuario(usuario);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username){
         return usuarioRepository.findByUsername(username).orElseThrow();
     }

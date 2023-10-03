@@ -3,6 +3,7 @@ package com.alura.foro.service.interfaces;
 import com.alura.foro.dto.request.actualizar.DtoActualizarUsuario;
 import com.alura.foro.dto.request.crear.DtoCrearUsuario;
 import com.alura.foro.dto.response.DtoListarUsuario;
+import com.alura.foro.model.Usuario;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +21,5 @@ public interface UsuarioInterface {
     void eliminarUsuario(Long id);
 
 
+    DtoListarUsuario buscarUsuario(String username);
 }

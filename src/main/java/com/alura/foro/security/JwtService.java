@@ -7,17 +7,22 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.security.Key;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.logging.Logger;
-
 @Service
-public class JwtService {
+public class JwtService{
 
     Logger logger  = Logger.getLogger(JwtService.class.getName());
 
@@ -50,8 +55,11 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
-    public String getUsernameFromToken(String token) {
-        return extractClaims(token).getSubject();
+    public String getUsernameFromToken(String token)  {
+
+            String getToken = getClaimFromToken(token, Claims::getSubject);
+            return getToken;
+
     }
 
     private Claims extractClaims(String token) {
@@ -62,7 +70,7 @@ public class JwtService {
                     .getBody();
     }
 
-    public boolean validateToken(String token, UserDetails userDetails) {
+    public boolean validateToken(String token, UserDetails userDetails) throws IOException {
 
         final String username = getUsernameFromToken(token);
 
@@ -71,6 +79,7 @@ public class JwtService {
             logger.info(ConstantService.TOKEN_VALIDO);
         } else {
             logger.info(ConstantService.TOKEN_INVALIDO);
+
         }
 
         return tokenValido;

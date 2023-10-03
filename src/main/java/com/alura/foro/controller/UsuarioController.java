@@ -3,6 +3,7 @@ package com.alura.foro.controller;
 import com.alura.foro.dto.request.actualizar.DtoActualizarUsuario;
 import com.alura.foro.dto.request.crear.DtoCrearUsuario;
 import com.alura.foro.dto.response.DtoListarUsuario;
+import com.alura.foro.model.Usuario;
 import com.alura.foro.service.implement.UsuarioService;
 import com.alura.foro.util.ConstantService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -69,7 +70,8 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<Object> store(@RequestBody @Valid DtoCrearUsuario userDtoRequest){
         usuarioService.registrarUsuario(userDtoRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDtoRequest);
+        DtoListarUsuario usuario = usuarioService.buscarUsuario(userDtoRequest.username());
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
     @Operation(
@@ -81,7 +83,8 @@ public class UsuarioController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody @Valid DtoActualizarUsuario userDtoRequest){
         usuarioService.actualizarUsuario(id, userDtoRequest);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userDtoRequest);
+        DtoListarUsuario usuario = usuarioService.buscarUsuario(userDtoRequest.username());
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(usuario);
     }
 
     @Operation(
